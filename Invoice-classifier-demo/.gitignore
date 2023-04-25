@@ -1,0 +1,4 @@
+app/model/best.pt
+.idea
+app/static/predict
+app/static/upload
