@@ -1,4 +1,4 @@
-app/model/best.pt
+app/model/invoice_classifier.pt
 .idea
 app/static/predict
 app/static/upload

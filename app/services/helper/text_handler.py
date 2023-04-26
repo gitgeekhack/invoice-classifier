@@ -3,6 +3,21 @@ import datefinder
 import regex as re
 import spacy
 
+"""
+This module contains functions for handling text data to extract information. The functions are:
+
+find_date(text): extracts a date from the given text using various techniques including regex patterns and spacy's named
+entity recognition (NER). It returns a string in the format of "YYYY-MM-DD" or "YYYY-DD-MM".
+
+find_money_or_cardinal(text): extracts a money amount or a cardinal number from the given text using spacy's NER.
+It returns a string.
+
+text_handle_func(text, label_id): a general function that takes in a text and a label_id as arguments.
+The label_id is used to determine which specific function to call. If label_id is 0, it calls find_date function,
+if it's 1, it calls find_money_or_cardinal function, and if it's 2, it simply returns the input text (merchant name).
+It returns the extracted information as a string or None if no information is found.
+"""
+
 nlp = spacy.load('en_core_web_sm')
 
 
