@@ -1,5 +1,3 @@
-from flask import Flask
-
 """
 This function creates a Flask app with specified configurations.
 
@@ -9,6 +7,8 @@ Parameters:
 Returns:
 - app (Flask): The configured Flask app instance.
 """
+
+from flask import Flask
 
 
 def create_app(debug=False):
