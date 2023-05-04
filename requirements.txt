@@ -1,0 +1,13 @@
+aiohttp==3.8.3
+aiohttp_jinja2==1.5.1
+datefinder==0.7.3
+Jinja2==3.1.2
+numpy==1.24.1
+opencv_contrib_python==4.5.4.60
+opencv_python==4.7.0.72
+opencv_python_headless==4.5.4.60
+Pillow==9.4.0
+regex==2022.10.31
+spacy==3.5.2
+torch==1.13.1
+transformers==4.28.1
