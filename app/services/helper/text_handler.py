@@ -36,12 +36,12 @@ class TextHandler:
         if list(datefinder.find_dates(cleaned_text)):
             matches = list(datefinder.find_dates(cleaned_text))
             for match in matches:
-                date_str = match.strftime(Regex.DATE_FORMAT)
+                date_str = match.strftime(Regex.DATE_FORMAT_1)
                 captures = re.findall(Regex.CAPTURES_PATTERN, text.strip())
                 if int(re.findall(Regex.CAPTURES_PATTERN, date_str)[2]) == int(captures[0]):
                     return date_str
                 else:
-                    date_str = match.strftime(Regex.DATE_FORMAT)
+                    date_str = match.strftime(Regex.DATE_FORMAT_2)
                     return date_str
         else:
             doc = self.nlp(text.strip())

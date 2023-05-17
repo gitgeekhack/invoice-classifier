@@ -34,8 +34,9 @@ class Path:
     UPLOAD_PATH = './app/static/upload'
     PREDICT_PATH = './app/static/predict'
     MODEL_PATH = './app/model/invoice_classifier.pt'
-
-
+    DISTILBERT_PATH = './app/model/distilbert-model'
+    TR_OCR_PATH = './app/model/tr-ocr-model'
+    XGB_PATH = './app/model/embed-XGB-DOC-CLF.pkl'
 class Dimensions:
     IMAGE_WIDTH = 500
     IMAGE_HEIGHT = 700
@@ -50,7 +51,8 @@ class Regex:
         "\\d{1,2}-\\d{1,2}-\\d{2,4}"]
     CLEANED_TEXT = r'[a-z]:\s'
     CAPTURES_PATTERN = r'\d+'
-    DATE_FORMAT = "%Y-%m-%d"
+    DATE_FORMAT_1 = "%Y-%m-%d"
+    DATE_FORMAT_2 = "%Y-%d-%m"
 
 
 class Labels:

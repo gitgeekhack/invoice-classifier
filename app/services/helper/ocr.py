@@ -16,12 +16,12 @@ the processor, and then feeding it to the OCR model. The generated text is retur
 import numpy as np
 from transformers import TrOCRProcessor, VisionEncoderDecoderModel
 import cv2
-
+from app.constants import Path
 
 class OCRService:
     def __init__(self):
-        self.processor = TrOCRProcessor.from_pretrained('microsoft/trocr-base-printed')
-        self.model_ocr = VisionEncoderDecoderModel.from_pretrained('microsoft/trocr-base-printed')
+        self.processor = TrOCRProcessor.from_pretrained(Path.TR_OCR_PATH)
+        self.model_ocr = VisionEncoderDecoderModel.from_pretrained(Path.TR_OCR_PATH)
 
     async def tr_ocr(self, img_crop, label_id):
         image = np.asarray(img_crop)
@@ -33,4 +33,6 @@ class OCRService:
         generated_ids = self.model_ocr.generate(pixel_values)
         generated_text = self.processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
         return generated_text, label_id
+
+
 

@@ -1,6 +1,6 @@
-app/model/invoice_classifier.pt
 app/static/predict
 app/static/upload
+app/model/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -106,9 +106,20 @@ body{
   background-color: #3e8e41;
 }
 
+.new-class {
+    margin: auto;
+    text-align: center;
+    padding-top: 20px;
+    color: red;
+    font-size: 36px;
+}
+
 .button-custom{
     padding: 10px 10px;
     font-size: 25px;
     background: #4CAF50 !important;
     border-radius: 10px;
 }
+
+
+
