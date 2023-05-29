@@ -14,7 +14,7 @@
         {% if error %}
             {% if error == 'AttributeError' %}
                 <p class="error-message">Please select a file to upload</p>
-            {% elif error == 'KeyError' %}
+            {% elif error == 'HTTPRequestEntityTooLarge' %}
                 <p class="error-message">File size too large! (Maximum limit: 10MB) </p>
             {% else %}
                 <p class="error-message">{{error}}</p>

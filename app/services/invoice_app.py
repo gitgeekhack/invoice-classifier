@@ -21,6 +21,8 @@ directory, and extracts the relevant text from each ROI using the ImageCropMaker
 """
 import io
 import os
+import time
+
 from PIL import Image
 import torch
 from app.services.helper.img_cropper import ImageCropMaker
@@ -33,6 +35,7 @@ class ImagePredictor:
         self.model = torch.hub.load('ultralytics/yolov5:v6.0', 'custom', path=Path.MODEL_PATH)
         self.img_cropper = ImageCropMaker()
         self.classifier = Classifier()
+
     async def predict_image(self, file):
         img_path = os.path.join(Path.UPLOAD_PATH, file.filename)
         img = Image.open(img_path)
@@ -48,7 +51,6 @@ class ImagePredictor:
 
         img = img.resize((Dimensions.IMAGE_WIDTH, Dimensions.IMAGE_HEIGHT))
         img.save(img_path)
-
         return image_name, extracted_invoice_info
 
     def display_other(self, file):
@@ -57,34 +59,30 @@ class ImagePredictor:
         return image_name, message
 
     async def handle_image_prediction_request(self, request):
-        try:
-            data = await request.post()
-            files = [file for file in data.getall('file') if file.content_type.startswith('image/')]
+        data = await request.post()
+        files = [file for file in data.getall('file') if file.content_type.startswith('image/')]
 
-            invoice_images, other_images, tasks_invoice, results_other = [], [], [], []
+        invoice_images, other_images, tasks_invoice, results_other = [], [], [], []
 
-            for file in files:
-                img_bytes = file.file.read()
-                img = Image.open(io.BytesIO(img_bytes))
-                img_path = os.path.join(Path.UPLOAD_PATH, file.filename)
+        for file in files:
+            img_bytes = file.file.read()
+            img = Image.open(io.BytesIO(img_bytes))
+            img_path = os.path.join(Path.UPLOAD_PATH, file.filename)
+            img.save(img_path)
+
+            invoice_or_other = self.classifier.doc_classifier(img_path)
+            if invoice_or_other == 0:
+                invoice_images.append(file.filename)
+                tasks_invoice.append(self.predict_image(file))
+            else:
+                img = img.resize((Dimensions.IMAGE_WIDTH, Dimensions.IMAGE_HEIGHT))
                 img.save(img_path)
+                other_images.append(file.filename)
+                image_name, msg = self.display_other(file)
+                results_other.append((image_name, msg))
 
-                invoice_or_other = self.classifier.doc_classifier(img_path)
-                if invoice_or_other == 0:
-                    invoice_images.append(file.filename)
-                    tasks_invoice.append(self.predict_image(file))
-                else:
-                    img = img.resize((Dimensions.IMAGE_WIDTH, Dimensions.IMAGE_HEIGHT))
-                    img.save(img_path)
-                    other_images.append(file.filename)
-                    image_name, msg = self.display_other(file)
-                    results_other.append((image_name, msg))
-            results_invoice = await asyncio.gather(*tasks_invoice)
+        results_invoice = await asyncio.gather(*tasks_invoice)
 
-            image_names = [name[0] for name in results_invoice]
-            prediction_results = [info[1] for info in results_invoice]
-            return image_names, prediction_results, results_other
-
-        except Exception as error:
-            return type(error).__name__
-
+        image_names = [name[0] for name in results_invoice]
+        prediction_results = [info[1] for info in results_invoice]
+        return image_names, prediction_results, results_other

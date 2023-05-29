@@ -12,6 +12,7 @@ The img_crop argument should be a NumPy array representing an image crop, and la
 the label ID of the corresponding OCR label. This method performs OCR on the image crop by first preprocessing it using
 the processor, and then feeding it to the OCR model. The generated text is returned along with the label_id.
 """
+import time
 
 import numpy as np
 from transformers import TrOCRProcessor, VisionEncoderDecoderModel
@@ -24,6 +25,7 @@ class OCRService:
         self.model_ocr = VisionEncoderDecoderModel.from_pretrained(Path.TR_OCR_PATH)
 
     async def tr_ocr(self, img_crop, label_id):
+        start = time.time()
         image = np.asarray(img_crop)
         if len(image.shape) == 2:
             image = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)

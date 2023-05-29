@@ -20,6 +20,8 @@ text_handle_func(text: str, label_id: int) -> str:
     label_id 2: other text
     If the label ID is not valid, this method returns None.
 """
+import asyncio
+import time
 
 import datefinder
 import regex as re
@@ -32,47 +34,44 @@ class TextHandler:
         self.nlp = spacy.load('en_core_web_sm')
 
     async def find_date(self, text):
-        cleaned_text = re.sub(Regex.CLEANED_TEXT, ' ', text.strip(), flags=re.IGNORECASE)
+        cleaned_text = re.sub(Regex.CLEANED_TEXT, ' ', text, flags=re.IGNORECASE)
         if list(datefinder.find_dates(cleaned_text)):
             matches = list(datefinder.find_dates(cleaned_text))
             for match in matches:
                 date_str = match.strftime(Regex.DATE_FORMAT_1)
-                captures = re.findall(Regex.CAPTURES_PATTERN, text.strip())
+                captures = re.findall(Regex.CAPTURES_PATTERN, text)
                 if int(re.findall(Regex.CAPTURES_PATTERN, date_str)[2]) == int(captures[0]):
                     return date_str
                 else:
                     date_str = match.strftime(Regex.DATE_FORMAT_2)
                     return date_str
         else:
-            doc = self.nlp(text.strip())
+            doc = self.nlp(text)
             for ent in doc.ents:
                 if ent.label_ == Labels.DATE_LABEL:
                     return ent.text
                 else:
-                    inv_dt = []
                     str_pattern = Regex.PATTERN
                     for pattern in str_pattern:
-                        for match in re.finditer(pattern, text):
-                            inv_dt.append(match.group())
-                    if len(inv_dt) == 0:
-                        pass
-                    else:
-                        return inv_dt[0]
+                        matches = re.finditer(pattern, text)
+                        if matches:
+                            return matches[0].group()
 
     async def find_money_or_cardinal(self, text):
-        doc = self.nlp(text.strip())
+        doc = self.nlp(text)
         for ent in doc.ents:
             if ent.label_ in Labels.AMOUNT_LABEL:
                 return ent.text
 
     async def text_handle_func(self, text, label_id):
-        if len(text.strip()) == 0:
-            pass
-        else:
+        strip_txt = text.strip()
+        if len(strip_txt) != 0:
             if label_id == 2:
-                return text.strip()
+                merchant = strip_txt
+                return merchant
             elif label_id == 0:
-                return await self.find_date(text)
+                date = await self.find_date(strip_txt)
+                return date
             elif label_id == 1:
-                return await self.find_money_or_cardinal(text)
-
+                amount = await self.find_money_or_cardinal(strip_txt)
+                return amount

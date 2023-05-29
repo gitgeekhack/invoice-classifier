@@ -25,9 +25,8 @@ async def predict(request):
         context = {'base_name': base_name_list, 'my_dict': my_dict_list, 'other_image_name': other_image_name}
         response = aiohttp_jinja2.render_template('predict.html', request, context=context)
         return response
-    except:
-        error = await image_predictor.handle_image_prediction_request(request)
-        response = aiohttp_jinja2.render_template('index.html', request, context={'error': error})
+    except Exception as error:
+        response = aiohttp_jinja2.render_template('index.html', request, context={'error': type(error).__name__})
         return response
 
 

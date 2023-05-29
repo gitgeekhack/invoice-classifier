@@ -14,6 +14,8 @@ text_handler: An instance of the TextHandler class.
 """
 
 import asyncio
+import time
+
 from app.services.helper.ocr import OCRService
 from app.services.helper.text_handler import TextHandler
 
@@ -75,7 +77,6 @@ class ImageCropMaker:
             elif label_id == 1:
                 amount_text = await self.text_handler.text_handle_func(text, label_id)
                 dic[label_name] = [amount_text, label_confidence]
-
         return dic
 
 
