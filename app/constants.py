@@ -37,8 +37,8 @@ class Path:
     DISTILBERT_PATH = './app/model/distilbert-model'
     TR_OCR_PATH = './app/model/tr-ocr-model'
     XGB_PATH = './app/model/embed-XGB-DOC-CLF.pkl'
-    PPOCR_RECN = '/home/darshan/.paddleocr/whl/rec/en/en_PP-OCRv3_rec_slim_infer'
-    PPOCR_DETN = '/home/darshan/.paddleocr/whl/det/en/en_PP-OCRv3_det_slim_infer'
+    PPOCR_RECN = './app/model/.paddleocr/whl/rec/en/en_PP-OCRv3_rec_slim_infer'
+    PPOCR_DETN = './app/model/.paddleocr/whl/det/en/en_PP-OCRv3_det_slim_infer'
 
 
 class Dimensions:
