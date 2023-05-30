@@ -22,7 +22,6 @@ class Classifier:
 
         text_embd = self.embeddings.generate_text_embeddings([text])
         invoice_prob = (self.xgb_model.predict_proba(text_embd).tolist()[0][0])
-        print("classifier-time:", start - time.time())
         if invoice_prob >= Threshold.THRESHOLD_VALUE:
             return Labels.INVOICE
         else:

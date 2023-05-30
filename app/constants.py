@@ -47,7 +47,7 @@ class Dimensions:
 
 
 class Regex:
-    PATTERN = [
+    DATE_PATTERN = [
         "[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}",
         "\\d{1,2}-(January|Jan|February|Feb|March|Mar|April|Apr|May|June|Jun|July|Jul|August|Aug|September|Sept|October|Oct|November|Nov|December|Dec)-\\d{4}",
         "\\d{4}-\\d{1,2}-\\d{1,2}",

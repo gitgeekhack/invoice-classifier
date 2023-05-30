@@ -35,8 +35,8 @@ class TextHandler:
 
     async def find_date(self, text):
         cleaned_text = re.sub(Regex.CLEANED_TEXT, ' ', text, flags=re.IGNORECASE)
-        if list(datefinder.find_dates(cleaned_text)):
-            matches = list(datefinder.find_dates(cleaned_text))
+        matches = list(datefinder.find_dates(cleaned_text))
+        if matches:
             for match in matches:
                 date_str = match.strftime(Regex.DATE_FORMAT_1)
                 captures = re.findall(Regex.CAPTURES_PATTERN, text)
@@ -51,7 +51,7 @@ class TextHandler:
                 if ent.label_ == Labels.DATE_LABEL:
                     return ent.text
                 else:
-                    str_pattern = Regex.PATTERN
+                    str_pattern = Regex.DATE_PATTERN
                     for pattern in str_pattern:
                         matches = re.finditer(pattern, text)
                         if matches:
