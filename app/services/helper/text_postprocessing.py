@@ -1,8 +1,5 @@
 """
-The TextHandler class provides methods to handle and extract information from given text.
-
-Attributes:
-nlp (object): An instance of spacy language model for natural language processing.
+The TextProcessor class provides methods to handle information from given text.
 
 Methods:
 find_date(text: str) -> str:
@@ -13,15 +10,13 @@ find_money_or_cardinal(text: str) -> str:
     Given a string of text, this method finds and returns the amount mentioned in the text. If the amount is not found,
     this method returns None.
 
-text_handle_func(text: str, label_id: int) -> str:
+handle_text(text: str, label_id: int) -> str:
     Given a string of text and a label ID, this method returns the corresponding text for the given label ID:
     label_id 0: date
     label_id 1: amount
     label_id 2: other text
     If the label ID is not valid, this method returns None.
 """
-import asyncio
-import time
 
 import datefinder
 import regex as re
@@ -29,7 +24,7 @@ import spacy
 from app.constants import Regex, Labels
 
 
-class TextHandler:
+class TextProcessor:
     def __init__(self):
         self.nlp = spacy.load('en_core_web_sm')
 
@@ -54,8 +49,9 @@ class TextHandler:
                     str_pattern = Regex.DATE_PATTERN
                     for pattern in str_pattern:
                         matches = re.finditer(pattern, text)
-                        if matches:
+                        if not matches:
                             return matches[0].group()
+
 
     async def find_money_or_cardinal(self, text):
         doc = self.nlp(text)
@@ -63,12 +59,11 @@ class TextHandler:
             if ent.label_ in Labels.AMOUNT_LABEL:
                 return ent.text
 
-    async def text_handle_func(self, text, label_id):
+    async def handle_text(self, text, label_id):
         strip_txt = text.strip()
         if len(strip_txt) != 0:
             if label_id == 2:
-                merchant = strip_txt
-                return merchant
+                return strip_txt
             elif label_id == 0:
                 date = await self.find_date(strip_txt)
                 return date

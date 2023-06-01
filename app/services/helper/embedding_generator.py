@@ -1,3 +1,7 @@
+"""
+This module contains the EmbeddingsGenerator class responsible for generating BERT embeddings from given text using a pre-trained transformer.
+"""
+
 import torch
 from tqdm import tqdm
 from transformers import AutoModel, AutoTokenizer

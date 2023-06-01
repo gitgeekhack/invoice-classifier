@@ -1,32 +1,5 @@
 """
 This class contains static paths used by the invoice classifier web application.
-
-Class Name: `Path`
-
-Attributes:
-- `UPLOAD_PATH` (str): The directory path where uploaded files are stored.
-- `PREDICT_PATH` (str): The directory path where predicted output files are stored.
-- `MODEL_PATH` (str): The file path of the invoice classifier model.
-
-Class Name: `Dimensions`
-
-Attributes:
-- `IMAGE_WIDTH` (int): The width of the images used by the application.
-- `IMAGE_HEIGHT` (int): The height of the images used by the application.
-
-Class Name: `Regex`
-
-Attributes:
-- `PATTERN` (list of str): A list of regex patterns used to extract dates from text.
-- `CLEANED_TEXT` (str): A regex pattern used to clean text data.
-- `CAPTURES_PATTERN` (str): A regex pattern used to capture numerical data from text.
-- `DATE_FORMAT` (str): The format for dates parsed from text.
-
-Class Name: `Labels`
-
-Attributes:
-- `DATE_LABEL` (str): The label used for dates.
-- `AMOUNT_LABEL` (list of str): A list of labels used for monetary amounts, including 'MONEY' and 'CARDINAL'.
 """
 
 
@@ -69,3 +42,15 @@ class Labels:
 class Threshold:
     THRESHOLD_VALUE = 0.96
 
+
+class Paddleocr:
+    REC_BATCH_NUM = 2
+    REC_ALGORITHM = 'CRNN'
+
+
+class Configuration:
+    MAX_IMAGE_SIZE = 1024 * 1024 * 10
+
+
+class Message:
+    MESSAGE = "This is not an Invoice!!"

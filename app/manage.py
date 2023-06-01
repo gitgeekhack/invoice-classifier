@@ -12,10 +12,11 @@ Configures the static root URL to be '/static'.
 import aiohttp_jinja2
 import jinja2
 from aiohttp import web
+from app.constants import Configuration
 
 
 def create_app():
-    app = web.Application(client_max_size=1024 * 1024 * 10)  #This means that the server will only accept requests with a payload (e.g., uploaded files) of up to 10MB in size.
+    app = web.Application(client_max_size=Configuration.MAX_IMAGE_SIZE)  #This means that the server will only accept requests with a payload (e.g., uploaded files) of up to 10MB in size.
     jinja2_env = aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader('app/templates/'))
     app['static_root_url'] = '/static'
     return app
