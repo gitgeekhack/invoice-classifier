@@ -1,5 +1,5 @@
 FROM python:3.8
-WORKDIR /home/darshan/Desktop/temp_invoice
+WORKDIR ./temp_invoice
 COPY . .
 RUN apt-get update
 RUN apt install -y libgl1-mesa-glx
